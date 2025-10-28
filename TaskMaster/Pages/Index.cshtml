@@ -1,0 +1,82 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "TaskMaster";
+}
+
+<div class="container">
+    <h1>📋 TaskMaster</h1>
+    
+    <div class="actions">
+        <a asp-page="/Create" class="btn btn-primary">+ New Task</a>
+    </div>
+
+    <div class="filters">
+        <a asp-page="/Index" asp-route-filter="all" 
+           class="filter-btn @(Model.Filter == "all" ? "active" : "")">
+            All (@Model.Tasks.Count)
+        </a>
+        <a asp-page="/Index" asp-route-filter="active" 
+           class="filter-btn @(Model.Filter == "active" ? "active" : "")">
+            Active (@Model.Tasks.Count(t => !t.IsCompleted))
+        </a>
+        <a asp-page="/Index" asp-route-filter="done" 
+           class="filter-btn @(Model.Filter == "done" ? "active" : "")">
+            Done (@Model.Tasks.Count(t => t.IsCompleted))
+        </a>
+    </div>
+
+    @if (!Model.Tasks.Any())
+    {
+        <div class="empty-state">
+            <p>No tasks found. Create your first task to get started!</p>
+        </div>
+    }
+    else
+    {
+        <div class="task-list">
+            @foreach (var task in Model.Tasks)
+            {
+                <div class="task-item @(task.IsCompleted ? "completed" : "")">
+                    <div class="task-content">
+                        <form method="post" asp-page-handler="Toggle" asp-route-id="@task.Id" class="toggle-form">
+                            <button type="submit" class="checkbox">
+                                @if (task.IsCompleted)
+                                {
+                                    <span>✓</span>
+                                }
+                            </button>
+                        </form>
+                        
+                        <div class="task-details">
+                            <div class="task-title">@task.Title</div>
+                            @if (!string.IsNullOrWhiteSpace(task.Description))
+                            {
+                                <div class="task-description">@task.Description</div>
+                            }
+                            <div class="task-meta">
+                                <span class="badge badge-@task.Category.ToString().ToLower()">
+                                    @task.Category
+                                </span>
+                                <span class="task-date">
+                                    Created: @task.CreatedAt.ToLocalTime().ToString("MMM dd, yyyy")
+                                </span>
+                                @if (task.CompletedAt.HasValue)
+                                {
+                                    <span class="task-date">
+                                        Completed: @task.CompletedAt.Value.ToLocalTime().ToString("MMM dd, yyyy")
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form method="post" asp-page-handler="Delete" asp-route-id="@task.Id" 
+                          onsubmit="return confirm('Delete this task?');" class="delete-form">
+                        <button type="submit" class="btn-delete" title="Delete task">🗑️</button>
+                    </form>
+                </div>
+            }
+        </div>
+    }
+</div>

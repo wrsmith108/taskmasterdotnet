@@ -1,0 +1,35 @@
+# fly.toml app configuration file generated for taskmasterdotnet on 2025-10-28T05:49:59Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'taskmasterdotnet'
+primary_region = 'lax'
+
+[build]
+  dockerfile = "Dockerfile"
+[mounts]
+  source = "taskmaster_data"
+  destination = "/data"
+
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 1
+  max_machines_running = 2
+  processes = ['app']
+
+  [[http_service.checks]]
+    grace_period = "5s"
+    interval = "10s"
+    method = "GET"
+    timeout = "2s"
+    path = "/health"
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1

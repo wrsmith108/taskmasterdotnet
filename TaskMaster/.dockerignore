@@ -1,0 +1,38 @@
+# Git
+.git
+.gitignore
+
+# Build results
+bin/
+obj/
+out/
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# VS Code
+.vscode/
+.vs/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+
+# Test results
+TestResults/
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Node (if any)
+node_modules/
+npm-debug.log
+
+# Misc
+*.log
+.DS_Store

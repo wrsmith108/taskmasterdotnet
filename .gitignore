@@ -1,0 +1,24 @@
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# Screenshots (can be added back selectively if needed)
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Build artifacts (additional coverage)
+**/bin/
+**/obj/
+
+# IDE
+.vs/
+.vscode/
+*.suo
+*.user
+
+# OS files
+.DS_Store
+Thumbs.db

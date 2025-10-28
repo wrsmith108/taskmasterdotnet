@@ -1,0 +1,43 @@
+@page
+@model CreateModel
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+<div class="container">
+    <h1>➕ Create New Task</h1>
+    
+    <form method="post" class="task-form">
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+        
+        <div class="form-group">
+            <label asp-for="NewTask.Title" class="form-label">Title *</label>
+            <input asp-for="NewTask.Title" class="form-control" placeholder="Enter task title" />
+            <span asp-validation-for="NewTask.Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewTask.Description" class="form-label">Description</label>
+            <textarea asp-for="NewTask.Description" class="form-control" rows="4" 
+                      placeholder="Enter task description (optional)"></textarea>
+            <span asp-validation-for="NewTask.Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="NewTask.Category" class="form-label">Category *</label>
+            <select asp-for="NewTask.Category" class="form-control" asp-items="Html.GetEnumSelectList<Category>()">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="NewTask.Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Create Task</button>
+            <a asp-page="/Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
